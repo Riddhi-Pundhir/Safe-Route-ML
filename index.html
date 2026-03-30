@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<title>SafeRoute AI</title>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY_HERE&libraries=places"></script>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial, sans-serif;
+background:#0f172a;
+color:white;
+}
+
+.container{
+display:flex;
+height:100vh;
+}
+
+.sidebar{
+width:320px;
+background:#111827;
+padding:20px;
+box-shadow:2px 0 10px rgba(0,0,0,0.4);
+}
+
+.sidebar h2{
+margin-top:0;
+}
+
+label{
+font-size:14px;
+margin-top:10px;
+display:block;
+}
+
+input{
+width:100%;
+padding:10px;
+margin-top:6px;
+border-radius:6px;
+border:none;
+outline:none;
+}
+
+button{
+margin-top:15px;
+width:100%;
+padding:12px;
+background:#2563eb;
+color:white;
+border:none;
+border-radius:6px;
+cursor:pointer;
+font-weight:bold;
+}
+
+button:hover{
+background:#1d4ed8;
+}
+
+.routeCard{
+background:#1f2937;
+padding:12px;
+margin-top:15px;
+border-radius:8px;
+}
+
+.safe{
+color:#22c55e;
+}
+
+.moderate{
+color:#facc15;
+}
+
+.risky{
+color:#ef4444;
+}
+
+.map-area{
+flex:1;
+position:relative;
+}
+
+#map{
+height:100%;
+width:100%;
+}
+
+.pulse{
+position:absolute;
+top:20px;
+right:20px;
+background:#16a34a;
+padding:8px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+
+<body>
+
+<div class="container">
+
+<div class="sidebar">
+
+<h2>SafeRoute AI</h2>
+<p style="font-size:13px;color:#9ca3af">
+Smart Women Safety Route Planner
+</p>
+
+<label>Start Location</label>
+<input id="start" placeholder="Enter start location">
+
+<label>Destination</label>
+<input id="end" placeholder="Enter destination">
+
+<button onclick="calculateRoute()">Find Safe Route</button>
+
+
+<div id="results">
+
+<div class="routeCard">
+<b>Safest Route</b>
+<p class="safe">Safety Score: --</p>
+</div>
+
+<div class="routeCard">
+<b>Moderate Route</b>
+<p class="moderate">Safety Score: --</p>
+</div>
+
+<div class="routeCard">
+<b>Risky Route</b>
+<p class="risky">Safety Score: --</p>
+</div>
+
+</div>
+
+</div>
+
+
+<div class="map-area">
+
+<div class="pulse">● LIVE SAFETY PULSE</div>
+
+<div id="map"></div>
+
+</div>
+
+</div>
+
+
+<script>
+
+let map;
+let directionsService;
+let directionsRenderer;
+
+function initMap(){
+
+map=new google.maps.Map(document.getElementById("map"),{
+
+zoom:5,
+center:{lat:39,lng:-95}
+
+});
+
+directionsService=new google.maps.DirectionsService();
+
+directionsRenderer=new google.maps.DirectionsRenderer({
+
+polylineOptions:{
+strokeColor:"#22c55e",
+strokeWeight:6
+}
+
+});
+
+directionsRenderer.setMap(map);
+
+}
+
+
+function calculateRoute(){
+
+const start=document.getElementById("start").value;
+const end=document.getElementById("end").value;
+
+directionsService.route({
+
+origin:start,
+destination:end,
+travelMode:'DRIVING'
+
+},function(result,status){
+
+if(status==='OK'){
+
+directionsRenderer.setDirections(result);
+
+const route=result.routes[0].legs[0];
+
+const lat=route.start_location.lat();
+const lng=route.start_location.lng();
+
+const hour=new Date().getHours();
+
+fetch("http://127.0.0.1:8000/predict",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+latitude:lat,
+longitude:lng,
+crime:0.6,
+lighting:(hour>6 && hour<19)?0.8:0.3,
+crowd:0.6,
+hour:hour
+
+})
+
+})
+.then(res=>res.json())
+.then(data=>{
+
+let scoreText=data.risk_class;
+
+document.querySelector(".safe").innerText="Safety Score: "+scoreText;
+
+})
+
+}
+
+});
+
+}
+
+
+initMap()
+
+</script>
+
+
+</body>
+</html>
