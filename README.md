@@ -1,7 +1,6 @@
 # 🚀 SafeRoute AI – Intelligent Safety-Based Navigation System
 
-SafeRoute AI is a machine learning-based system that predicts the safety level of a route using real-world factors like crime data, environmental conditions, and time-based risk.
-It is designed to help users choose safer routes instead of just the shortest or fastest ones.
+SafeRoute AI is a machine learning-based prototype system that predicts the safety level of a route using contextual factors such as environmental conditions, time-based risk, and modeled crime-related patterns. It is designed to help users make more informed route decisions beyond just speed or distance.
 
 ---
 
@@ -10,52 +9,66 @@ It is designed to help users choose safer routes instead of just the shortest or
 Most navigation systems optimize for speed or distance but ignore safety.
 
 SafeRoute AI introduces:
-- Safety-aware navigation
-- Risk-based route classification
-- Intelligent decision-making using machine learning
+
+* Safety-aware navigation
+* Risk-based route classification
+* Context-driven decision support
 
 ---
 
 ## 🧠 Machine Learning Approach
 
 ### 🔹 Features Used
-- Latitude & Longitude
-- Crime severity (derived from crime type)
-- Lighting conditions (day/night)
-- Crowd density
-- Hour of the day
+
+* Latitude & Longitude
+* Modeled crime severity (derived from dataset patterns)
+* Lighting conditions (day/night approximation)
+* Crowd density (simulated)
+* Hour of the day
+
+---
 
 ### 🔹 Risk Scoring
+
 A weighted scoring system is used:
-- Crime Severity → 50%
-- Lighting → 25%
-- Crowd Density → 15%
-- Time-based risk → 10%
+
+* Crime-related severity → 50%
+* Lighting → 25%
+* Crowd Density → 15%
+* Time-based risk → 10%
+
+---
 
 ### 🔹 Models Trained
-- Logistic Regression
-- Decision Tree
-- Random Forest
-- Gradient Boosting (Final Model)
+
+* Logistic Regression
+* Decision Tree
+* Random Forest
+* Gradient Boosting (Final Model)
+
+---
 
 ### 🔹 Final Model
-- Gradient Boosting Classifier
+
+Gradient Boosting Classifier
 
 ---
 
 ## 📊 Results
 
-- Achieved ~97% accuracy using Gradient Boosting Classifier
-- Strong performance across:
-  - Precision
-  - Recall
-  - F1 Score
+Achieved high accuracy (~97%) on the processed dataset used for experimentation.
 
-- Classifies routes into:
-  - Safe
-  - Moderate Risk
-  - High Risk
-  - Enables visual comparison of multiple route safety levels
+The model demonstrates strong performance across:
+
+* Precision
+* Recall
+* F1 Score
+
+It classifies routes into:
+
+* Safe
+* Moderate Risk
+* High Risk
 
 ---
 
@@ -67,18 +80,21 @@ User Input → Google Maps → FastAPI Backend → ML Model → Safety Predictio
 
 ## 💻 Tech Stack
 
-**Backend**
-- Python
-- FastAPI
+### Backend
 
-**Machine Learning**
-- Scikit-learn
-- Pandas
-- NumPy
+* Python
+* FastAPI
 
-**Frontend**
-- HTML, CSS, JavaScript
-- Google Maps API
+### Machine Learning
+
+* Scikit-learn
+* Pandas
+* NumPy
+
+### Frontend
+
+* HTML, CSS, JavaScript
+* Google Maps API
 
 ---
 
@@ -86,43 +102,60 @@ User Input → Google Maps → FastAPI Backend → ML Model → Safety Predictio
 
 1. User enters start and destination
 2. Google Maps generates route data
-3. Coordinates + time extracted
-4. Data sent to backend
-5. ML model predicts safety
-6. Result shown in UI
+3. Coordinates and time are extracted
+4. Data is sent to backend
+5. ML model predicts safety level
+6. Result is displayed in UI
 
 ---
 
 ## 📁 Project Structure
 
-- app.py → FastAPI backend
-- ustm.py → Model training
-- ust_model.pkl → Trained model
-- index.html → Frontend
-- style.css → Styling
-- fnm.js → Frontend logic
-- crime_safety_dataset.csv
-- crime_safety_processed.csv
+* `app.py` → FastAPI backend
+* `ustm.py` → Model training
+* `ust_model.pkl` → Trained model
+* `index.html` → Frontend
+* `style.css` → Styling
+* `fnm.js` → Frontend logic
+* `crime_safety_dataset.csv`
+* `crime_safety_processed.csv`
 
 ---
 
-## ⚠️ Setup Instructions
+## ⚠️ Disclaimer
+
+This project is a prototype developed for educational and research purposes.
+It uses simulated and processed datasets and does not represent real-time or authoritative safety data.
+
+The system provides indicative safety insights based on modeled factors and should not be used as a sole source for real-world decision-making.
+
+---
+
+## ⚙️ Setup Instructions
 
 1. Install dependencies:
-   pip install fastapi uvicorn scikit-learn pandas numpy joblib
+
+```
+pip install fastapi uvicorn scikit-learn pandas numpy joblib
+```
 
 2. Run backend:
-   uvicorn app:app --reload
 
-3. Open index.html in browser
+```
+uvicorn app:app --reload
+```
+
+3. Open `index.html` in browser
 
 ---
 
 ## 🔑 API Key Note
 
-Replace this in index.html:
+Replace this in `index.html`:
 
+```
 YOUR_API_KEY_HERE
+```
 
 with your own Google Maps API key.
 
@@ -130,18 +163,26 @@ with your own Google Maps API key.
 
 ## 🚀 Future Improvements
 
-- Integration with publicly available or open crime datasets for improved real-world accuracy
-- Enhanced multi-route safety comparison with dynamic scoring
-- Improved feature engineering using additional contextual signals (weather, population density, etc.)
-- Deployment as a web service with scalable backend support
-- Extension to mobile-friendly interface for wider accessibility
+* Integration with openly licensed public datasets (subject to permissions)
+* Multi-route safety comparison with dynamic scoring
+* Improved feature engineering (weather, population density, etc.)
+* Deployment with scalable backend infrastructure
+* Mobile-friendly interface
 
 ---
 
-## 🎯 Key Highlight
+## 🎯 Key Highlights
 
 This project demonstrates:
-- End-to-end ML system design
-- Feature engineering
-- API integration
-- Full-stack development
+
+* End-to-end ML system design
+* Feature engineering
+* API integration
+* Full-stack development
+* Consideration of ethical and data-related constraints
+
+---
+
+## 📌 Summary
+
+SafeRoute AI is a practical prototype that combines machine learning and real-world signals to provide safer navigation insights, emphasizing usability, scalability, and responsible data usage.
